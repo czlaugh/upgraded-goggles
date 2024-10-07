@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CloudFormation template to create a Lambda layer from an S3 file'
+
+Parameters:
+  S3BucketName:
+    Type: String
+    Description: The name of the S3 bucket where the layer file is located
+
+  S3KeyPrefix:
+    Type: String
+    Description: The S3 key prefix for the layer file
+    Default: sklearn_1.4.2.zip
+
+Resources:
+  SklearnLayer:
+    Type: AWS::Lambda::LayerVersion
+    Properties:
+      LayerName: sklearn-142-layer
+      Description: Lambda layer containing scikit-learn library
+      Content: 
+        S3Bucket: !Ref S3BucketName
+        S3Key: !Ref S3KeyPrefix
+      CompatibleRuntimes: 
+        - python3.10
+      LicenseInfo: 'https://scikit-learn.org/ open source, commercially usable - BSD license'
